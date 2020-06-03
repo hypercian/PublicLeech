@@ -43,7 +43,7 @@ async def aria_start():
     aria2_daemon_start_cmd.append(f"--rpc-listen-port={ARIA_TWO_STARTED_PORT}")
     aria2_daemon_start_cmd.append("--rpc-max-request-size=1024M")
     aria2_daemon_start_cmd.append("--seed-ratio=0.0")
-    aria2_daemon_start_cmd.append("--seed-time=1")
+    aria2_daemon_start_cmd.append("--seed-time=0.01")
     aria2_daemon_start_cmd.append("--split=10")
     aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
     #
@@ -228,18 +228,19 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 except:
                     pass
                 #
-                msg = f"\nDownloading File: `{downloading_dir_name}`"
-                msg += f"\nSpeed: {file.download_speed_string()} 🔽 / {file.upload_speed_string()} 🔼"
-                msg += f"\nProgress: {file.progress_string()}"
-                msg += f"\nTotal Size: {file.total_length_string()}"
-
+                msg = f"\n✏️ File Name : `{downloading_dir_name}`"
+                msg += f"\nSize : {file.total_length_string()}"
+                msg += f"\nProgress : {file.progress_string()}"
+                msg += f"\n⚡️ Speed : {file.download_speed_string()} 🔻 / {file.upload_speed_string()} 🔺"
+                
+               
                 if is_file is None :
-                   msg += f"\n<b>Connections:</b> {file.connections}"
+                   msg += f"\n<b>Connections : </b> {file.connections}"
                 else :
-                   msg += f"\n<b>Info:</b>[ P : {file.connections} || S : {file.num_seeders} ]"
+                   msg += f"\n<b>Info : </b>[ P : {file.connections} || S : {file.num_seeders} ]"
 
                 # msg += f"\nStatus: {file.status}"
-                msg += f"\nETA: {file.eta_string()}"
+                msg += f"\nETA : {file.eta_string()}"
                 msg += f"\n<code>/cancel {gid}</code>"
                 # LOGGER.info(msg)
                 if msg != previous_message:
@@ -252,12 +253,12 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
-            await event.edit(f"File Downloaded Successfully: `{file.name}`")
+            await event.edit(f"✔️ Downloaded Successfully: `{file.name}`")
             return True
     except Exception as e:
         LOGGER.info(str(e))
         if " not found" in str(e) or "'file'" in str(e):
-            await event.edit("Download Canceled :\n`{}`".format(file.name))
+            await event.edit("❌ Download Canceled :\n`{}`".format(file.name))
             return False
         elif " depth exceeded" in str(e):
             file.remove(force=True)
