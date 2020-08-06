@@ -307,7 +307,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 msg += f"\n⚡️ Speed : {file.download_speed_string()} 🔻 / {file.upload_speed_string()} 🔺"
                 
                
-                if is_file is None :
+                if file.seeder is None :
                    msg += f"\n<b>Connections : </b> {file.connections}"
                 else :
                    msg += f"\n<b>Info : </b>[ P : {file.connections} || S : {file.num_seeders} ]"
