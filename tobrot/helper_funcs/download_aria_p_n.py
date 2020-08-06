@@ -92,7 +92,7 @@ def add_magnet(aria_instance, magnetic_link, c_file_name):
 
 def add_torrent(aria_instance, torrent_file_path):
     if torrent_file_path is None:
-        return False, "**FAILED** \n" + str(e) + " \nsomething wrongings when trying to add <u>TORRENT</u> file"
+        return False, "**FAILED** \n\nsomething wrongings when trying to add <u>TORRENT</u> file"
     if os.path.exists(torrent_file_path):
         # Add Torrent Into Queue
         try:
@@ -301,7 +301,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 except:
                     pass
                 #
-                msg = f"\n✏️ File Name : `{downloading_dir_name}`"
+                msg = f"\n✏️ File Name : <code>{downloading_dir_name}</code>"
                 msg += f"\nSize : {file.total_length_string()}"
                 msg += f"\nProgress : {file.progress_string()}"
                 msg += f"\n⚡️ Speed : {file.download_speed_string()} 🔻 / {file.upload_speed_string()} 🔺"
@@ -326,7 +326,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
-            await event.edit(f"✔️ Downloaded Successfully: `{file.name}`")
+            await event.edit(f"✔️ Downloaded Successfully: <code>{file.name}<code>")
             return True
     except Exception as e:
         LOGGER.info(str(e))
