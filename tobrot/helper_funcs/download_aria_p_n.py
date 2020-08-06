@@ -171,7 +171,10 @@ def add_url(aria_instance, text_url, c_file_name):
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
     #
-    r_clone_conf_file = await get_r_clone_config(R_CLONE_CONF_URI)
+    r_clone_conf_file = await get_r_clone_config(
+        R_CLONE_CONF_URI,
+        sent_message_to_update_tg_p._client
+    )
     if r_clone_conf_file is not None: # how? even :\
         config = configparser.ConfigParser()
         config.read(r_clone_conf_file)
